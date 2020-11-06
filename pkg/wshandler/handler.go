@@ -39,6 +39,7 @@ func NewHandler(conn *websocket.Conn) Handler {
 	}
 }
 
+// SendMessage send a message and notify if connection is lost
 func (h *wsHandler) SendMessage(msg Message) error {
 	err := h.conn.WriteJSON(msg)
 	if err != nil {
@@ -54,6 +55,7 @@ func (h *wsHandler) SendMessage(msg Message) error {
 	return nil
 }
 
+// Handle
 func (h *wsHandler) Handle(opts ...Option) {
 	// get option
 	opt := option{

@@ -46,8 +46,9 @@ func (s *service) postBroadcastMsg(c *gin.Context) {
 	if err := c.ShouldBind(&msg); err != nil {
 		logrus.WithField(errorField, err).
 			Error("failed to bind broadcast message")
-		c.JSON(http.StatusBadRequest, gin.H{
-			errorField: "failed to bind message",
+		c.AbortWithStatusJSON(http.StatusBadRequest, HTTPResponse{
+			Error:   true,
+			Message: "failed to bind message",
 		})
 		return
 	}
@@ -59,8 +60,9 @@ func (s *service) postBroadcastMsg(c *gin.Context) {
 	if err := s.validator.Struct(msg); err != nil {
 		logrus.WithField(errorField, err).
 			Error("message invalid")
-		c.JSON(http.StatusBadRequest, gin.H{
-			errorField: "message invalid",
+		c.AbortWithStatusJSON(http.StatusBadRequest, HTTPResponse{
+			Error:   true,
+			Message: "message invalid",
 		})
 		return
 	}
@@ -72,5 +74,8 @@ func (s *service) postBroadcastMsg(c *gin.Context) {
 	})
 
 	// return http status
-	c.Status(http.StatusNoContent)
+	c.JSON(http.StatusOK, HTTPResponse{
+		Error:   false,
+		Message: "success",
+	})
 }

@@ -24,3 +24,8 @@
     ```shell script
     cd ./websocketclient && go run main.go
     ```
+
+## Test
+```shell script
+go test -v ./...
+```
